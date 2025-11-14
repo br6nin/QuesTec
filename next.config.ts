@@ -21,6 +21,7 @@ const nextConfig: NextConfig = {
     // 构建时忽略ESLint错误
     ignoreDuringBuilds: true,
   },
+  srcDir: 'src/',
 };
 
 export default nextConfig;
