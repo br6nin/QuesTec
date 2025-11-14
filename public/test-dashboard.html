@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Dashboard QuesTec</title>
+    <script>
+        // Simular usuário logado
+        localStorage.setItem('user', JSON.stringify({
+            id: 'test-user-id',
+            name: 'Usuário Teste',
+            email: 'test@example.com',
+            credits: 5,
+            plan: 'free'
+        }));
+        
+        // Redirecionar para dashboard
+        window.location.href = '/dashboard';
+    </script>
+</head>
+<body>
+    <p>Redirecionando para dashboard...</p>
+</body>
+</html>
