@@ -14,12 +14,12 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Z.ai Code Scaffold - AI-Powered Development",
-  description: "Modern Next.js scaffold optimized for AI-powered development with Z.ai. Built with TypeScript, Tailwind CSS, and shadcn/ui.",
+  title: "QuesTec",
+  description: "Plataforma de Correção de Redação com IA",
   keywords: ["Z.ai", "Next.js", "TypeScript", "Tailwind CSS", "shadcn/ui", "AI development", "React"],
   authors: [{ name: "Z.ai Team" }],
   icons: {
-    icon: "https://z-cdn.chatglm.cn/z-ai/static/logo.svg",
+    icon: "https://noxxvyznjrozaxwldnpv.supabase.co/storage/v1/object/public/logo/questec_logo.svg",
   },
   openGraph: {
     title: "Z.ai Code Scaffold",
