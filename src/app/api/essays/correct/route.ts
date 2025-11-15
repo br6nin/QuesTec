@@ -1,87 +1,83 @@
-import { NextRequest, NextResponse } from 'next/server'
-import { db } from '@/lib/db'
+import { NextRequest, NextResponse } from 'next/server';
+import { db } from '@/lib/db'; 
 
-// NOTA: A importação do ZAI foi removida e a lógica de IA foi comentada/substituída
-// para permitir que o deploy na Vercel seja concluído com sucesso.
+// 1. Lê a URL do AWS Lambda da variável de ambiente da Vercel
+const AWS_CORRECTION_URL = process.env.AWS_CORRECTION_URL;
 
 export async function POST(request: NextRequest) {
-  try {
-    const { essayId } = await request.json()
-
-    if (!essayId) {
-      return NextResponse.json(
-        { error: 'ID da redação é obrigatório' },
-        { status: 400 }
-      )
+    // Verifica se a URL de correção está configurada antes de começar
+    if (!AWS_CORRECTION_URL) {
+        return NextResponse.json(
+            { error: 'URL do serviço de correção de IA não configurada (AWS_CORRECTION_URL)' },
+            { status: 500 }
+        );
     }
+    
+    try {
+        const { essayId } = await request.json();
 
-    // 1. Buscar a redação no banco
-    const essay = await db.essay.findUnique({
-      where: { id: essayId }
-    })
+        // 1. Buscar a redação no banco (Prisma)
+        const essay = await db.essay.findUnique({
+            where: { id: essayId }
+        });
 
-    if (!essay) {
-      return NextResponse.json(
-        { error: 'Redação não encontrada' },
-        { status: 404 }
-      )
+        if (!essay) {
+            return NextResponse.json({ error: 'Redação não encontrada' }, { status: 404 });
+        }
+
+        // 🛑 CHAMADA LEVE: Envia os dados para a função Lambda (onde a IA roda)
+        const lambdaResponse = await fetch(AWS_CORRECTION_URL, {
+            method: 'POST',
+            // Envia APENAS os dados da redação que o Lambda precisa
+            body: JSON.stringify({ 
+                theme: essay.theme, 
+                title: essay.title, 
+                content: essay.content 
+            }),
+            headers: { 'Content-Type': 'application/json' }
+        });
+        
+        // Lidar com erros de rede ou status de erro do Lambda
+        if (!lambdaResponse.ok) {
+            let errorBody = await lambdaResponse.text();
+            try {
+                 errorBody = JSON.parse(errorBody);
+            } catch (e) {
+                // Se não for JSON, usa o texto puro
+            }
+            console.error('Erro da Função Lambda:', errorBody);
+            throw new Error(`Erro do Serviço de Correção: ${lambdaResponse.statusText}`);
+        }
+
+        const lambdaData = await lambdaResponse.json();
+        const correctionData = lambdaData.correction; // O objeto JSON da correção gerado pela Z.AI
+
+        // 2. Atualizar a redação no banco com os resultados REAIS do Lambda
+        const updatedEssay = await db.essay.update({
+            where: { id: essayId },
+            data: {
+                c1Score: correctionData.c1Score,
+                c2Score: correctionData.c2Score,
+                c3Score: correctionData.c3Score,
+                c4Score: correctionData.c4Score,
+                c5Score: correctionData.c5Score,
+                finalScore: correctionData.finalScore,
+                feedback: JSON.stringify(correctionData), 
+                status: 'corrected'
+            }
+        });
+
+        return NextResponse.json({
+            message: 'Redação corrigida com sucesso pela IA externa',
+            essay: updatedEssay,
+            correction: correctionData
+        });
+
+    } catch (error) {
+        console.error('Erro no processo de correção Vercel -> Lambda:', error);
+        return NextResponse.json(
+            { error: 'Erro ao processar a correção. Verifique o Lambda e CORS.' },
+            { status: 500 }
+        );
     }
-
-    // ======================================================
-    // **BLOCO DA IA DESABILITADO TEMPORARIAMENTE**
-    // 
-    // Em seu lugar, vamos simular uma resposta (placeholder)
-    // para que a Vercel não tente executar código pesado.
-    // ======================================================
-
-    const correctionData = {
-      c1Score: 180,
-      c1Feedback: "Simulação: Forte domínio da norma culta, com pouquíssimos desvios (180/200).",
-      c2Score: 180,
-      c2Feedback: "Simulação: Excelente compreensão da proposta e aplicação produtiva do tema (180/200).",
-      c3Score: 180,
-      c3Feedback: "Simulação: Estrutura dissertativo-argumentativa clara e coesa (180/200).",
-      c4Score: 180,
-      c4Feedback: "Simulação: Argumentação sólida, com repertório sociocultural pertinente (180/200).",
-      c5Score: 180,
-      c5Feedback: "Simulação: Proposta de intervenção completa, com todos os elementos (180/200).",
-      finalScore: 900, // Simulação de nota total
-      generalFeedback: "Simulação: O site está em estabilização. Sua redação simulada atingiu 900 pontos, indicando ótimo potencial. A correção real por IA será ativada em breve.",
-      suggestions: [
-        "Simulação: Revise a concordância nominal para precisão máxima.",
-        "Simulação: Busque aprofundar a discussão dos agentes de intervenção.",
-        "Simulação: Conecte o repertório de forma mais explícita ao argumento."
-      ]
-    }
-
-    // 2. Atualizar a redação no banco com os resultados SIMULADOS
-    const updatedEssay = await db.essay.update({
-      where: { id: essayId },
-      data: {
-        c1Score: correctionData.c1Score,
-        c2Score: correctionData.c2Score,
-        c3Score: correctionData.c3Score,
-        c4Score: correctionData.c4Score,
-        c5Score: correctionData.c5Score,
-        finalScore: correctionData.finalScore,
-        // É importante salvar o feedback como string no seu banco
-        feedback: JSON.stringify(correctionData), 
-        status: 'corrected'
-      }
-    })
-
-    // 3. Retornar a resposta simulada
-    return NextResponse.json({
-      message: 'Redação corrigida com sucesso (Simulado)',
-      essay: updatedEssay,
-      correction: correctionData
-    })
-
-  } catch (error) {
-    console.error('Essay correction error (handled):', error)
-    return NextResponse.json(
-      { error: 'Erro ao corrigir redação' },
-      { status: 500 }
-    )
-  }
 }
