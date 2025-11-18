@@ -1,141 +1,107 @@
-# 🚀 Welcome to Z.ai Code Scaffold
+✍️ Questec - Plataforma de Correção de Redações com IA Gemini
 
-A modern, production-ready web application scaffold powered by cutting-edge technologies, designed to accelerate your development with [Z.ai](https://chat.z.ai)'s AI-powered coding assistance.
+💡 Sobre o Projeto
+O Questec é uma plataforma inovadora projetada para auxiliar estudantes na preparação para o ENEM e outros vestibulares, oferecendo correções automáticas e detalhadas de redações utilizando a avançada inteligência artificial do Google Gemini.
 
-## ✨ Technology Stack
+O sistema foi desenvolvido para replicar a estrutura de avaliação das 5 competências do ENEM, fornecendo aos usuários uma pontuação (de 0 a 1000) e feedbacks específicos para cada área de avaliação.
 
-This scaffold provides a robust foundation built with:
+✨ Funcionalidades Principais
+Correção Inteligente: Utiliza a API Gemini 2.5 Flash para processar e corrigir redações.
 
-### 🎯 Core Framework
-- **⚡ Next.js 15** - The React framework for production with App Router
-- **📘 TypeScript 5** - Type-safe JavaScript for better developer experience
-- **🎨 Tailwind CSS 4** - Utility-first CSS framework for rapid UI development
+Avaliação Detalhada: Retorna a pontuação final e feedback dividido pelas 5 competências do ENEM (Domínio da norma padrão, Compreensão do tema, Argumentação, Mecanismos linguísticos e Proposta de intervenção).
 
-### 🧩 UI Components & Styling
-- **🧩 shadcn/ui** - High-quality, accessible components built on Radix UI
-- **🎯 Lucide React** - Beautiful & consistent icon library
-- **🌈 Framer Motion** - Production-ready motion library for React
-- **🎨 Next Themes** - Perfect dark mode in 2 lines of code
+Interface Amigável: Front-end desenvolvido com Next.js para uma experiência de usuário fluida.
 
-### 📋 Forms & Validation
-- **🎣 React Hook Form** - Performant forms with easy validation
-- **✅ Zod** - TypeScript-first schema validation
+Arquitetura Serverless: O processamento da correção é gerenciado por uma função AWS Lambda, garantindo escalabilidade e baixo custo de operação.
 
-### 🔄 State Management & Data Fetching
-- **🐻 Zustand** - Simple, scalable state management
-- **🔄 TanStack Query** - Powerful data synchronization for React
-- **🌐 Axios** - Promise-based HTTP client
 
-### 🗄️ Database & Backend
-- **🗄️ Prisma** - Next-generation Node.js and TypeScript ORM
-- **🔐 NextAuth.js** - Complete open-source authentication solution
+🛠️ Tecnologias Utilizadas
+O projeto Questec foi construído com as seguintes tecnologias:
 
-### 🎨 Advanced UI Features
-- **📊 TanStack Table** - Headless UI for building tables and datagrids
-- **🖱️ DND Kit** - Modern drag and drop toolkit for React
-- **📊 Recharts** - Redefined chart library built with React and D3
-- **🖼️ Sharp** - High performance image processing
+Frontend: Next.js (com TypeScript e React)
 
-### 🌍 Internationalization & Utilities
-- **🌍 Next Intl** - Internationalization library for Next.js
-- **📅 Date-fns** - Modern JavaScript date utility library
-- **🪝 ReactUse** - Collection of essential React hooks for modern development
+Estilização: Tailwind CSS (para design rápido e responsivo)
 
-## 🎯 Why This Scaffold?
+Backend/API: AWS Lambda (Node.js)
 
-- **🏎️ Fast Development** - Pre-configured tooling and best practices
-- **🎨 Beautiful UI** - Complete shadcn/ui component library with advanced interactions
-- **🔒 Type Safety** - Full TypeScript configuration with Zod validation
-- **📱 Responsive** - Mobile-first design principles with smooth animations
-- **🗄️ Database Ready** - Prisma ORM configured for rapid backend development
-- **🔐 Auth Included** - NextAuth.js for secure authentication flows
-- **📊 Data Visualization** - Charts, tables, and drag-and-drop functionality
-- **🌍 i18n Ready** - Multi-language support with Next Intl
-- **🚀 Production Ready** - Optimized build and deployment settings
-- **🤖 AI-Friendly** - Structured codebase perfect for AI assistance
+Database: Prisma ORM com PostgreSQL (ou outro BD de sua escolha)
 
-## 🚀 Quick Start
+Inteligência Artificial: Google Gemini API (gemini-2.5-flash)
 
-```bash
-# Install dependencies
-npm install
+Versionamento: Git e GitHub
 
-# Start development server
+🚀 Como Executar o Projeto Localmente
+Siga estes passos para configurar e executar o Questec em sua máquina.
+
+1. Pré-requisitos
+Certifique-se de ter instalado:
+
+Node.js (v18+)
+
+npm ou Yarn
+
+Git
+
+Conta no Google AI Studio e uma chave de API válida para o Gemini.
+
+2. Clonagem do Repositório
+Bash
+
+git clone <URL do seu repositório>
+cd questec
+
+3. Instalação de Dependências
+Bash
+
+npm install 
+# ou
+yarn install
+
+4. Configuração das Variáveis de Ambiente
+Crie um arquivo .env na raiz do projeto e adicione as suas chaves e credenciais:
+
+# Variável principal para a API do Google Gemini
+GEMINI_API_KEY="<SUA CHAVE DA API GEMINI AQUI>" 
+
+# Configurações do Banco de Dados (exemplo Prisma/PostgreSQL)
+DATABASE_URL="<URL DE CONEXÃO DO SEU BANCO DE DADOS>"
+
+# Outras variáveis (se houver, como NEXTAUTH_SECRET, etc.)
+# ...
+Atenção: Se você estiver utilizando uma função AWS Lambda como backend para a correção, certifique-se de que a variável GEMINI_API_KEY esteja corretamente configurada no ambiente da sua função Lambda.
+
+5. Execução Local
+Para iniciar o servidor de desenvolvimento:
+
+Bash
+
 npm run dev
+# ou
+yarn dev
+O aplicativo estará disponível em http://localhost:3000.
 
-# Build for production
-npm run build
+📄 Estrutura do Projeto
+O projeto segue a estrutura padrão do Next.js e inclui uma função serverless para o processamento da IA:
 
-# Start production server
-npm start
-```
+questec/
+├── .next/
+├── node_modules/
+├── prisma/               # Esquemas do banco de dados
+├── public/
+├── src/
+│   ├── app/              # Rotas e Páginas do Next.js
+│   │   ├── api/          # Rotas de API (ex: /api/admin, /api/auth)
+│   │   │   ├── essays/   # Rota de submissão/busca de redações
+│   │   │   └── payments/
+│   │   └── dashboard/
+│   ├── components/       # Componentes React
+│   └── lib/              # Funções utilitárias
+├── .env                  # Variáveis de ambiente
+├── package.json
+└── README.md
 
-Open [http://localhost:3000](http://localhost:3000) to see your application running.
+🤝 Contribuições
+Contribuições são sempre bem-vindas! Se você tiver sugestões, bug reports ou quiser adicionar novas funcionalidades, sinta-se à vontade para abrir uma issue ou enviar um Pull Request.
 
-## 🤖 Powered by Z.ai
-
-This scaffold is optimized for use with [Z.ai](https://chat.z.ai) - your AI assistant for:
-
-- **💻 Code Generation** - Generate components, pages, and features instantly
-- **🎨 UI Development** - Create beautiful interfaces with AI assistance  
-- **🔧 Bug Fixing** - Identify and resolve issues with intelligent suggestions
-- **📝 Documentation** - Auto-generate comprehensive documentation
-- **🚀 Optimization** - Performance improvements and best practices
-
-Ready to build something amazing? Start chatting with Z.ai at [chat.z.ai](https://chat.z.ai) and experience the future of AI-powered development!
-
-## 📁 Project Structure
-
-```
-src/
-├── app/                 # Next.js App Router pages
-├── components/          # Reusable React components
-│   └── ui/             # shadcn/ui components
-├── hooks/              # Custom React hooks
-└── lib/                # Utility functions and configurations
-```
-
-## 🎨 Available Features & Components
-
-This scaffold includes a comprehensive set of modern web development tools:
-
-### 🧩 UI Components (shadcn/ui)
-- **Layout**: Card, Separator, Aspect Ratio, Resizable Panels
-- **Forms**: Input, Textarea, Select, Checkbox, Radio Group, Switch
-- **Feedback**: Alert, Toast (Sonner), Progress, Skeleton
-- **Navigation**: Breadcrumb, Menubar, Navigation Menu, Pagination
-- **Overlay**: Dialog, Sheet, Popover, Tooltip, Hover Card
-- **Data Display**: Badge, Avatar, Calendar
-
-### 📊 Advanced Data Features
-- **Tables**: Powerful data tables with sorting, filtering, pagination (TanStack Table)
-- **Charts**: Beautiful visualizations with Recharts
-- **Forms**: Type-safe forms with React Hook Form + Zod validation
-
-### 🎨 Interactive Features
-- **Animations**: Smooth micro-interactions with Framer Motion
-- **Drag & Drop**: Modern drag-and-drop functionality with DND Kit
-- **Theme Switching**: Built-in dark/light mode support
-
-### 🔐 Backend Integration
-- **Authentication**: Ready-to-use auth flows with NextAuth.js
-- **Database**: Type-safe database operations with Prisma
-- **API Client**: HTTP requests with Axios + TanStack Query
-- **State Management**: Simple and scalable with Zustand
-
-### 🌍 Production Features
-- **Internationalization**: Multi-language support with Next Intl
-- **Image Optimization**: Automatic image processing with Sharp
-- **Type Safety**: End-to-end TypeScript with Zod validation
-- **Essential Hooks**: 100+ useful React hooks with ReactUse for common patterns
-
-## 🤝 Get Started with Z.ai
-
-1. **Clone this scaffold** to jumpstart your project
-2. **Visit [chat.z.ai](https://chat.z.ai)** to access your AI coding assistant
-3. **Start building** with intelligent code generation and assistance
-4. **Deploy with confidence** using the production-ready setup
-
----
-
-Built with ❤️ for the developer community. Supercharged by [Z.ai](https://chat.z.ai) 🚀
+⚖️ Licença
+Este projeto está licenciado sob a Licença <br6nin>.
