@@ -50,14 +50,18 @@ export async function POST(request: NextRequest) {
         }
 
         const lambdaData = await lambdaResponse.json();
+        
         // CORREÇÃO: A Lambda agora envia o objeto de correção diretamente.
+        // Anteriormente, o código tentava ler lambdaData.correction (que era undefined).
+        // Agora, lambdaData JÁ É o objeto de correção.
         const correctionData = lambdaData; 
 
         // 2. Atualizar a redação no banco com os resultados REAIS do Lambda
         const updatedEssay = await db.essay.update({
             where: { id: essayId },
             data: {
-                // Estes campos agora existem graças à correção do Prompt na Lambda!
+                // Os campos c1Score, finalScore, etc. agora existem em correctionData 
+                // graças ao novo prompt que você inseriu na Lambda.
                 c1Score: correctionData.c1Score,
                 c2Score: correctionData.c2Score,
                 c3Score: correctionData.c3Score,
@@ -67,6 +71,13 @@ export async function POST(request: NextRequest) {
                 feedback: JSON.stringify(correctionData), 
                 status: 'corrected'
             }
+        });
+
+        // Este retorno agora envia o objeto de correção correto para o Front-end
+        return NextResponse.json({
+            message: 'Redação corrigida com sucesso pela IA externa',
+            essay: updatedEssay,
+            correction: correctionData
         });
 
     } catch (error) {
