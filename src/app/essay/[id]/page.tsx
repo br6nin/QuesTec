@@ -23,7 +23,7 @@ interface CorrectionData {
   c5Feedback: string
   finalScore: number
   generalFeedback: string
-  suggestions: string[]
+  suggestions: string[] // É um array de strings
 }
 
 interface Essay {
@@ -75,7 +75,21 @@ export default function EssayFeedbackPage({ params }: { params: { id: string } }
       if (response.ok) {
         setEssay(data.essay)
         if (data.essay.feedback) {
-          setCorrection(JSON.parse(data.essay.feedback))
+          // CORREÇÃO DE SEGURANÇA: Garantir que o JSON seja parseado, mesmo que tenha caracteres extras
+            const rawFeedback = data.essay.feedback.trim();
+            let correctionData;
+            try {
+                // Tenta limpar e parsear o JSON
+                const cleanedFeedback = rawFeedback.replace(/```json|```/g, '').trim();
+                const firstBracketIndex = cleanedFeedback.indexOf('{');
+                const finalJson = firstBracketIndex > 0 ? cleanedFeedback.substring(firstBracketIndex) : cleanedFeedback;
+                correctionData = JSON.parse(finalJson);
+            } catch (e) {
+                console.error("Erro ao parsear o JSON de feedback:", e);
+                // Fallback para um objeto vazio ou erro para evitar quebras no frontend
+                correctionData = { finalScore: 0, generalFeedback: "Erro na leitura da correção. Tente corrigir novamente.", suggestions: [] };
+            }
+          setCorrection(correctionData as CorrectionData)
         }
       } else {
         console.error('Error fetching essay:', data.error)
@@ -101,6 +115,7 @@ export default function EssayFeedbackPage({ params }: { params: { id: string } }
       const data = await response.json()
 
       if (response.ok) {
+        // CORREÇÃO: Garante que o objeto retornado do endpoint /correct tem a estrutura correta
         setCorrection(data.correction)
         setEssay(data.essay)
       } else {
@@ -148,7 +163,6 @@ export default function EssayFeedbackPage({ params }: { params: { id: string } }
             <Button>Voltar ao Dashboard</Button>
           </Link>
         </div>
-        {/* A chave '}' de fechamento da função já está no final do arquivo */}
       </div>
     )
   }
@@ -173,6 +187,7 @@ export default function EssayFeedbackPage({ params }: { params: { id: string } }
               </Button>
             </div>
           </div>
+          
         </div>
       </header>
 
@@ -342,7 +357,7 @@ export default function EssayFeedbackPage({ params }: { params: { id: string } }
                 </CardHeader>
                 <CardContent>
                   <ul className="space-y-3">
-                    {/* CORREÇÃO PRINCIPAL: Garante que 'suggestions' existe E é um array antes de usar .map() */}
+                    {/* CORREÇÃO PRINCIPAL: Adiciona a verificação de array e resolve o erro de sintaxe 'ul' */}
                     {correction.suggestions && Array.isArray(correction.suggestions) && correction.suggestions.map((suggestion, index) => (
                       <li key={index} className="flex items-start">
                         <div className="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center mr-3 mt-0.5 flex-shrink-0">

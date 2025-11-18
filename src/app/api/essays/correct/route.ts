@@ -50,11 +50,8 @@ export async function POST(request: NextRequest) {
         }
 
         const lambdaData = await lambdaResponse.json();
-        
-        // CORREÇÃO: A Lambda agora envia o objeto de correção diretamente.
-        // Anteriormente, o código tentava ler lambdaData.correction (que era undefined).
-        // Agora, lambdaData JÁ É o objeto de correção.
-        const correctionData = lambdaData; 
+        // CORREÇÃO: Lê o objeto de correção diretamente.
+        const correctionData = lambdaData;
 
         // 2. Atualizar a redação no banco com os resultados REAIS do Lambda
         const updatedEssay = await db.essay.update({
