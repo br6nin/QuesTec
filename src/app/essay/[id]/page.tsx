@@ -349,7 +349,7 @@ export default function EssayFeedbackPage({ params }: { params: { id: string } }
                           <span className="text-blue-600 text-sm font-semibold">{index + 1}</span>
                         </div>
                         <span className="text-gray-700">{suggestion}</span>
-                      </li>
+                      </li> 
                     ))}
                   </ul> 
                 </CardContent>
