@@ -319,7 +319,7 @@ export default function Home() {
             <Card className="text-center p-6">
               <Mail className="w-12 h-12 text-blue-600 mx-auto mb-4" />
               <h3 className="font-semibold text-gray-900 mb-2">Email</h3>
-              <p className="text-gray-600">bruno.almeidaferrer@gmail.com</p>
+              <p className="text-gray-600">suportequestec@gmail.com</p>
             </Card>
 
             <Card className="text-center p-6">
