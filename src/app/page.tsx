@@ -261,7 +261,7 @@ export default function Home() {
                   <Link 
                     href={plan.name === 'Grátis' 
                       ? '/register?plan=gratis' // Plano Grátis leva para o Cadastro/Login
-                      : `/checkout?plan=${plan.name.toLowerCase()}` // Planos pagos levam para o Checkout, passando o nome do plano na URL
+                      : `/plans=${plan.name.toLowerCase()}` // Planos pagos levam para o Checkout, passando o nome do plano na URL
                     }
                     className="block" // O Link precisa ser block para ocupar a largura total
                   >
