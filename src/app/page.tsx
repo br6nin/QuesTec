@@ -256,11 +256,23 @@ export default function Home() {
                       </li>
                     ))}
                   </ul>
-                  <Button 
-                    className={`w-full py-2 text-sm ${plan.name === 'Grátis' ? 'bg-green-600 hover:bg-green-700' : plan.popular ? 'bg-blue-600 hover:bg-blue-700' : 'bg-gray-600 hover:bg-gray-700'} text-white`}
+                  
+                  {/* INÍCIO DA ALTERAÇÃO: Adicionando o Link ao redor do Button */}
+                  <Link 
+                    href={plan.name === 'Grátis' 
+                      ? '/register?plan=gratis' // Plano Grátis leva para o Cadastro/Login
+                      : `/checkout?plan=${plan.name.toLowerCase()}` // Planos pagos levam para o Checkout, passando o nome do plano na URL
+                    }
+                    className="block" // O Link precisa ser block para ocupar a largura total
                   >
-                    {plan.name === 'Grátis' ? 'Começar Grátis' : 'Escolher Plano'}
-                  </Button>
+                    <Button 
+                      className={`w-full py-2 text-sm ${plan.name === 'Grátis' ? 'bg-green-600 hover:bg-green-700' : plan.popular ? 'bg-blue-600 hover:bg-blue-700' : 'bg-gray-600 hover:bg-gray-700'} text-white`}
+                    >
+                      {plan.name === 'Grátis' ? 'Começar Grátis' : 'Escolher Plano'}
+                    </Button>
+                  </Link>
+                  {/* FIM DA ALTERAÇÃO */}
+                  
                 </CardContent>
               </Card>
             ))}
