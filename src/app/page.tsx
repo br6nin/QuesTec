@@ -99,7 +99,7 @@ export default function Home() {
               <div className="w-10 h-10 bg-red-600 rounded-lg flex items-center justify-center">
                 <PenTool className="w-6 h-6 text-white" />
               </div>
-              <a href= "https://questec.vercel.app" className="text-2xl font-bold text-gray-900">QuesTec</a>
+              <a href= "https://questec.com.br" className="text-2xl font-bold text-gray-900">QuesTec</a>
             </div>
             <nav className="hidden md:flex items-center space-x-6">
               <a href="#how" className="text-gray-600 hover:text-gray-900 transition">Como Funciona</a>
@@ -346,7 +346,7 @@ export default function Home() {
                 <div className="w-8 h-8 bg-red-600 rounded-lg flex items-center justify-center">
                   <PenTool className="w-5 h-5 text-white" />
                 </div>
-                <a href= "https://questec.vercel.app" className="text-xl font-bold">QuesTec</a>
+                <a href= "https://questec.com.br" className="text-xl font-bold">QuesTec</a>
               </div>
               <p className="text-gray-400">
                 Correção de redações ENEM com inteligência artificial
