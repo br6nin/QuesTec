@@ -346,7 +346,7 @@ export default function Home() {
                 <div className="w-8 h-8 bg-red-600 rounded-lg flex items-center justify-center">
                   <PenTool className="w-5 h-5 text-white" />
                 </div>
-                <span className="text-xl font-bold">QuesTec</span>
+                <a href= "questec.vercel.app" className="text-xl font-bold">QuesTec</a>
               </div>
               <p className="text-gray-400">
                 Correção de redações ENEM com inteligência artificial
