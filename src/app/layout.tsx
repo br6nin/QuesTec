@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
+import "./globals.css"; 
 import { Toaster } from "@/components/ui/toaster";
+// Importação do componente de barra de progresso
+import NextTopLoader from "nextjs-toploader"; 
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -41,10 +43,23 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    // Alterei lang="en" para lang="pt-br" para maior consistência
+    <html lang="pt-br" suppressHydrationWarning> 
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background text-foreground`}
       >
+        {/* Componente de Barra de Progresso Adicionado */}
+        <NextTopLoader
+          color="#2299DD" // Cor azul do Questec
+          initialPosition={0.08}
+          crawlSpeed={200}
+          height={3} 
+          showSpinner={false} 
+          easing="ease"
+          speed={500}
+          shadow="0 0 10px #2299DD, 0 0 5px #2299DD"
+        />
+
         {children}
         <Toaster />
       </body>
