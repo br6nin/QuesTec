@@ -30,16 +30,15 @@ export async function POST(req: Request) {
 
     const session = await stripe.checkout.sessions.create({
       // 1. Detalhes do Pagamento
-      payment_method_types: ['card', 'boleto', 'pix'],
+      // Usando 'card' e 'boleto', pois o boleto está Habilitado no Dashboard.
+      // O 'pix' foi removido porque causou o último erro, sugerindo que não estava ativado.
+      payment_method_types: ['card', 'boleto'], 
       mode: 'subscription', // ESSENCIAL: Assinatura recorrente
       line_items: [{
         price: priceId, 
         quantity: 1,
       }],
       
-      // 🛑 LINHA REMOVIDA: 'customer_creation' é inválido no modo 'subscription'.
-      // O Stripe cria o Customer automaticamente.
-
       // 2. Automação e Metadata
       metadata: { 
           userId: finalUserId, 
