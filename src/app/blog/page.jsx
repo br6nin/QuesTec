@@ -4,6 +4,7 @@
 import React, { useState, useEffect } from 'react';
 import { fetchPosts } from './client'; // Importa a função de busca
 import Link from 'next/link'; // Usaremos o componente Link nativo do Next.js
+import './styles.css';
 
 const BlogIndex = () => {
     const [posts, setPosts] = useState([]);

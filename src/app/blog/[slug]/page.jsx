@@ -5,6 +5,7 @@ import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router'; // Roteador nativo do Next.js
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer'; // Renderizador de Rich Text
 import { fetchPostDetail } from '../client'; 
+import './styles.css';
 
 const PostDetail = () => {
     const router = useRouter();
