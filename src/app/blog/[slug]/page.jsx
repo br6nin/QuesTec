@@ -59,8 +59,10 @@ const PostDetail = () => {
                 <img src={imageUrl} alt={postData.title} className="post-featured-image" />
                 
                 <div className="post-content-content">
+                    <div classname="prose max-w-none">
                     {/* Renderiza o Rich Text do Contentful */}
-                    {documentToReactComponents(postData.content)} 
+                    {documentToReactComponents(postData.content)}
+                    </div> 
                 </div>
                 
                 <hr />
