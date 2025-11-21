@@ -105,7 +105,7 @@ const plans: Plan[] = [
     color: 'ring-gray-300',
     paymentRequired: true,
     creditsToAdd: 5,
-    priceId: 'price_1PBasicoXXXXXX', // <-- SUBSTITUA ESTE ID
+    priceId: 'price_1SVyEp7y7k1z73nwQrreXq4y', // <-- SUBSTITUA ESTE ID
   },
   {
     name: 'Plus',
@@ -122,7 +122,7 @@ const plans: Plan[] = [
     color: 'ring-indigo-600',
     paymentRequired: true,
     creditsToAdd: 15,
-    priceId: 'price_1PPlusXXXXXX', // <-- SUBSTITUA ESTE ID
+    priceId: 'price_1SVyFZ7y7k1z73nwWRLqyz3Q', // <-- SUBSTITUA ESTE ID
   },
   {
     name: 'Premium',
@@ -140,7 +140,7 @@ const plans: Plan[] = [
     color: 'ring-gray-300',
     paymentRequired: true,
     creditsToAdd: 30,
-    priceId: 'price_1PPremiumXXXXXX', // <-- SUBSTITUA ESTE ID
+    priceId: 'price_1SVyFz7y7k1z73nwT56tbTH6', // <-- SUBSTITUA ESTE ID
   }
 ]
 
@@ -191,20 +191,38 @@ export default function PlansPage() {
     setIsProcessing(true)
 
     try {
-      // Esta é uma rota de API de backend que não pode ser simulada aqui
-      // Em um aplicativo Next.js/real, isso faria uma chamada para a API Stripe.
-      console.log(`Simulando checkout para o plano: ${plan.name} com Price ID: ${plan.priceId}`);
-      // Simulação de redirecionamento do Stripe
-      setTimeout(() => {
-          alert(`Checkout simulado para ${plan.name}. Redirecionaria para o Stripe.`);
-          setIsProcessing(false);
-          // router.push('/dashboard?checkout=success'); // Descomente para simular sucesso
-      }, 1500);
-      
+        // 1. Chamar a rota de API de backend para criar a sessão do Stripe Checkout
+        const response = await fetch('/api/checkout', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ 
+                priceId: plan.priceId, 
+                userId: user.id 
+            }),
+        });
+
+        if (!response.ok) {
+            // Se a resposta não for OK (ex: status 400 ou 500)
+            const errorData = await response.json();
+            throw new Error(errorData.error || 'Falha ao criar sessão de checkout.');
+        }
+
+        const data = await response.json();
+        const url = data.url;
+
+        if (url) {
+            // 2. Redirecionar para a URL do Stripe Checkout
+            // Isso envia o usuário para a página de pagamento externa.
+            window.location.href = url;
+        } else {
+            throw new Error('URL de checkout não recebida.');
+        }
+
     } catch (error) {
-      console.error('Erro ao iniciar o checkout:', error)
-      alert('Ocorreu um erro de conexão. Verifique o console.');
-      setIsProcessing(false)
+        console.error('Erro fatal no processo de checkout:', error)
+        setIsProcessing(false)
     }
   }
   
@@ -273,6 +291,9 @@ export default function PlansPage() {
         <div className="text-center p-8 bg-white rounded-xl shadow-lg">
           <Loader2 className="w-8 h-8 text-indigo-600 animate-spin mx-auto mb-4" />
           <p className="text-gray-700 font-medium">Carregando dados do usuário...</p>
+        </div>
+        <div className="absolute top-0 right-0 p-4 bg-red-100 text-red-700 rounded-bl-lg shadow-md">
+          <p className="font-semibold">Erro: Usuário não autenticado. O checkout pode falhar.</p>
         </div>
       </div>
     )
