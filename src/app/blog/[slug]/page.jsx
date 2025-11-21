@@ -54,13 +54,13 @@ const PostDetail = () => {
             <article className="full-post-article">
                 <title>{postData.title}</title> 
                 <h1 className="post-header-title">{postData.title}</h1>
-                <p className="post-meta">Publicado em: {publishDate}</p>
+                <p className="post-meta">Publicado em: {publishedDate}</p>
                 
                 <img src={imageUrl} alt={postData.title} className="post-featured-image" />
                 
-                <div className="post-content-body">
+                <div className="post-content-content">
                     {/* Renderiza o Rich Text do Contentful */}
-                    {documentToReactComponents(postData.body)} 
+                    {documentToReactComponents(postData.content)} 
                 </div>
                 
                 <hr />
