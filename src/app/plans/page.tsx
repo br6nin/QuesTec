@@ -52,6 +52,7 @@ const PenTool: React.FC<{ className?: string }> = ({ className = 'w-6 h-6 text-w
   </svg>
 );
 
+// ArrowLeft e Loader2 não serão mais usados no header, mas mantidos caso sejam necessários em outro lugar.
 const ArrowLeft: React.FC<{ className?: string }> = ({ className = 'w-4 h-4' }) => (
   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={className}>
     <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
@@ -119,7 +120,7 @@ const plans: Plan[] = [
     color: 'ring-gray-300',
     paymentRequired: true,
     creditsToAdd: 5,
-    priceId: 'price_1PBasicoXXXXXX', // <-- SUBSTITUA ESTE ID
+    priceId: 'price_1SVyEp7y7k1z73nwQrreXq4y', // <-- SUBSTITUA ESTE ID
   },
   {
     name: 'Plus',
@@ -136,7 +137,7 @@ const plans: Plan[] = [
     color: 'ring-indigo-600',
     paymentRequired: true,
     creditsToAdd: 15,
-    priceId: 'price_1PPlusXXXXXX', // <-- SUBSTITUA ESTE ID
+    priceId: 'price_1SVyFZ7y7k1z73nwWRLqyz3Q', // <-- SUBSTITUA ESTE ID
   },
   {
     name: 'Premium',
@@ -154,7 +155,7 @@ const plans: Plan[] = [
     color: 'ring-gray-300',
     paymentRequired: true,
     creditsToAdd: 30,
-    priceId: 'price_1PPremiumXXXXXX', // <-- SUBSTITUA ESTE ID
+    priceId: 'price_1SVyFz7y7k1z73nwT56tbTH6', // <-- SUBSTITUA ESTE ID
   }
 ]
 
@@ -225,11 +226,7 @@ export default function PlansPage() {
         router.push(data.url)
       } else {
         console.error('Erro no Checkout do Stripe:', data.error || 'Resposta inválida do servidor.')
-        // Mensagem de erro customizada (substituindo o antigo alert)
-        // Aqui você pode implementar um modal ou toast
-        // Usando o alert simples como último recurso, pois já havíamos removido
-        // na correção anterior. Idealmente, use um modal customizado.
-        alert('Ocorreu um erro ao processar o pagamento. Verifique o console para detalhes.');
+        alert('Ocorreu um erro ao processar o pagamento. Verifique o console para detalhes.');
       }
     } catch (error) {
       console.error('Erro ao iniciar o checkout:', error)
@@ -305,13 +302,13 @@ export default function PlansPage() {
           <Loader2 className="w-8 h-8 text-indigo-600 animate-spin mx-auto mb-4" />
           <p className="text-gray-700 font-medium">Carregando dados do usuário...</p>
         </div>
-        </div>
+      </div>
     )
   }
 
   return (
     <div className="min-h-screen bg-gray-50 font-sans">
-      {/* Header Limpo */}
+      {/* Header Principal: Mantido, mas removido "Plano atual" */}
       <header className="bg-white shadow-sm sticky top-0 z-10">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center justify-between">
@@ -323,21 +320,17 @@ export default function PlansPage() {
               <span className="text-xl font-bold">QuesTec</span>
             </a>
             
-            <div className="flex items-center space-x-4">
-              <div className="text-sm text-gray-500 hidden sm:block">
-                Plano atual: <span className="font-bold text-indigo-600 capitalize">{user.plan || 'Grátis'}</span>
-              </div>
-              {/* A LINHA PROBLEMÁTICA ORIGINALMENTE ESTAVA AQUI - CORRIGIDA */}
-              <Button 
-                  onClick={() => router.push('/dashboard')}
-                  className="bg-gray-100 text-gray-700 hover:bg-gray-200 focus:ring-gray-300 px-4 py-2 text-sm"
-              >
-                <span className="flex items-center">
-                    <ArrowLeft className="w-4 h-4 mr-2" />
-                    Voltar ao Painel
-                </span>
-              </Button>
-            </div>
+            {/* Botão Voltar ao Painel (opcionalmente mantido aqui, se ainda for necessário) */}
+            {/* Se quiser remover completamente, apague este bloco de Button */}
+            <Button 
+                onClick={() => router.push('/dashboard')}
+                className="bg-gray-100 text-gray-700 hover:bg-gray-200 focus:ring-gray-300 px-4 py-2 text-sm"
+            >
+              <span className="flex items-center">
+                  <ArrowLeft className="w-4 h-4 mr-2" />
+                  Voltar ao Painel
+              </span>
+            </Button>
           </div>
         </div>
       </header>
@@ -353,14 +346,14 @@ export default function PlansPage() {
           </p>
         </div>
 
-        {/* Pricing Cards Grid */}
+        {/* Pricing Cards Grid - AGORA ALINHADO EM 4 COLUNAS EM TELAS MAIORES */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto items-stretch">
           {plans.map((plan, index) => (
             <PlanCard key={index} plan={plan} />
           ))}
         </div>
 
-        {/* Features Comparison Table (Redesenhada) */}
+        {/* Features Comparison Table */}
         <div className="mt-20 max-w-5xl mx-auto">
           <Card className="p-8">
             <h2 className="text-3xl font-bold text-gray-900 mb-6">Comparação Detalhada</h2>
