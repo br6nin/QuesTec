@@ -44,9 +44,6 @@ const Header = () => {
                         <Link href="/register" className="hidden md:block">
                             <Button className="bg-blue-600 hover:bg-blue-700 text-white">Cadastrar</Button>
                         </Link>
-                        <Link href="/admin" className="hidden md:block"> 
-                            <Button variant="ghost" className="text-gray-600 hover:text-gray-900">Admin</Button>
-                        </Link>
 
                         <button 
                             className="md:hidden p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
