@@ -27,13 +27,13 @@ export const metadata: Metadata = {
   
   // 🛑 ÍCONE (Favicon) - AGORA USANDO O PNG
   icons: {
-    icon: "https://noxxvyznjrozaxwldnpv.supabase.co/storage/v1/object/public/logo/questec_logo.png",
+    icon: "https://noxxvyznjrozaxwldnpv.supabase.co/storage/v1/object/public/logo/brand.png",
   },
   
   openGraph: {
     title: "QuesTec",
     description: "AI-powered development with modern React stack",
-    url: "https://chat.z.ai",
+    url: "https://questec.com.br",
     siteName: "QuesTec",
     type: "website",
     
