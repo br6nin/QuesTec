@@ -19,12 +19,12 @@ export const metadata: Metadata = {
   title: "QuesTec",
   description: "Plataforma de Correção de Redação com IA",
   keywords: ["Z.ai", "Next.js", "TypeScript", "Tailwind CSS", "shadcn/ui", "AI development", "React"],
-  authors: [{ name: "Z.ai Team" }],
+  authors: [{ name: "br6nin" }],
   icons: {
     icon: "https://noxxvyznjrozaxwldnpv.supabase.co/storage/v1/object/public/logo/questec_logo.svg",
   },
   openGraph: {
-    title: "Z.ai Code Scaffold",
+    title: "QuesTec",
     description: "AI-powered development with modern React stack",
     url: "https://chat.z.ai",
     siteName: "Z.ai",
@@ -32,7 +32,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Z.ai Code Scaffold",
+    title: "QuesTec",
     description: "AI-powered development with modern React stack",
   },
 };

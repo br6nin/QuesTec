@@ -123,6 +123,11 @@ export default function Home() {
                   Admin
                 </Button>
               </Link>
+              <Link href="/blog">
+                <Button variant="ghost" className="text-gray-600 hover:text-gray-900">
+                  Blog
+                </Button>
+              </Link>
             </div>
           </div>
         </div>
