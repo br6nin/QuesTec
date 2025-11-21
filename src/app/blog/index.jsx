@@ -1,17 +1,15 @@
 // src/app/blog/index.jsx
+'use client'; 
 
 import React, { useState, useEffect } from 'react';
 import { fetchPosts } from './client'; // Importa a função de busca
-// O Contentful Rich Text não é necessário aqui, só no post/[slug].jsx
+import Link from 'next/link'; // Usaremos o componente Link nativo do Next.js
 
-// 1. O Componente Funcional (O que o framework espera)
 const BlogIndex = () => {
-    // 2. State para armazenar os posts e o status de carregamento
     const [posts, setPosts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    // 3. Efeito para buscar os dados quando o componente é montado
     useEffect(() => {
         fetchPosts()
             .then(items => {
@@ -19,22 +17,19 @@ const BlogIndex = () => {
                 setLoading(false);
             })
             .catch(err => {
-                console.error("Erro ao buscar posts:", err);
-                setError("Erro ao carregar o blog. Tente novamente mais tarde.");
+                setError("Não foi possível carregar a lista de posts.");
                 setLoading(false);
             });
-    }, []); // O array vazio [] garante que rode apenas na montagem
+    }, []); 
 
-    // 4. Renderização Condicional
     if (loading) {
-        return <div style={{ textAlign: 'center', padding: '50px' }}>Carregando posts...</div>;
+        return <main id="posts-container" style={{ textAlign: 'center', padding: '50px' }}>Carregando posts...</main>;
     }
 
     if (error) {
-        return <div style={{ color: 'red', textAlign: 'center', padding: '50px' }}>{error}</div>;
+        return <main id="posts-container" style={{ color: 'red', textAlign: 'center', padding: '50px' }}>{error}</main>;
     }
 
-    // 5. Retorno do JSX (Onde estava o HTML)
     return (
         <main id="posts-container" className="blog-grid-layout">
             {posts.map(post => {
@@ -47,19 +42,17 @@ const BlogIndex = () => {
                     : 'placeholder.jpg';
                 
                 return (
-                    // O HTML é substituído por JSX aqui
-                    <article key={post.sys.id} className="blog-card">
-                        <img src={imageUrl} alt={title} className="card-image"/>
-                        <div className="card-content">
-                            <h3>{title}</h3>
-                            <p className="date">Publicado em: {publishDate}</p>
-                            
-                            {/* ROTEAMENTO LIMPO COM O FRAMEWORK */}
-                            <a href={`/blog/${slug}`} className="read-more-link">
-                                Ler Post Completo
-                            </a>
-                        </div>
-                    </article>
+                    // Usando Link do Next.js para roteamento limpo!
+                    <Link key={post.sys.id} href={`/blog/${slug}`} passHref legacyBehavior>
+                        <article className="blog-card">
+                            <img src={imageUrl} alt={title} className="card-image"/>
+                            <div className="card-content">
+                                <h3>{title}</h3>
+                                <p className="date">Publicado em: {publishDate}</p>
+                                <a className="read-more-link">Ler Post Completo</a>
+                            </div>
+                        </article>
+                    </Link>
                 );
             })}
         </main>

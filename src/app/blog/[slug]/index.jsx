@@ -1,89 +1,64 @@
 // src/app/blog/[slug]/index.jsx
-'use client'; // Indica que este é um Componente Cliente (se estiver no Next.js App Router)
+'use client';
 
 import React, { useState, useEffect } from 'react';
-import { useRouter } from 'next/router'; // Hook para acessar os parâmetros da URL
-import { documentToReactComponents } from '@contentful/rich-text-react-renderer'; // Melhor forma de renderizar Rich Text no React
-
-// Importa o cliente Contentful e a função de busca
-import { client } from '../client'; 
-// Importa a função de busca que você colocou em client.js (se for o caso)
-
-// Função para buscar um único post por slug
-async function fetchPostDetail(slug) {
-    if (!slug) return null;
-    
-    const response = await client.getEntries({
-        content_type: 'post',
-        'fields.slug': slug, 
-        limit: 1 
-    });
-    
-    return response.items[0] || null;
-}
+import { useRouter } from 'next/router'; // Roteador nativo do Next.js
+import { documentToReactComponents } from '@contentful/rich-text-react-renderer'; // Renderizador de Rich Text
+import { fetchPostDetail } from '../client'; 
 
 const PostDetail = () => {
-    // 1. Obter o 'slug' da rota (URL Limpa)
     const router = useRouter();
-    const { slug } = router.query;
+    // Obtém o 'slug' da URL limpa (/blog/meu-slug)
+    const { slug } = router.query; 
     
-    // 2. States para dados e status
     const [post, setPost] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    // 3. Efeito para buscar os dados
     useEffect(() => {
-        if (!slug) return; // Espera o slug estar disponível na URL
+        if (!slug) return; 
 
         fetchPostDetail(slug)
             .then(fetchedPost => {
                 if (fetchedPost) {
                     setPost(fetchedPost);
                 } else {
-                    setError("Post não encontrado.");
+                    setError("Post não encontrado. O link pode estar incorreto.");
                 }
                 setLoading(false);
             })
             .catch(err => {
-                console.error("Erro ao buscar detalhes do post:", err);
                 setError("Erro de Conexão. Não foi possível carregar o conteúdo.");
                 setLoading(false);
             });
-    }, [slug]); // Roda sempre que o 'slug' mudar
+    }, [slug]); 
 
-    // 4. Renderização Condicional
     if (loading) {
-        return <div className="post-detail-container">Carregando post...</div>;
+        return <main className="post-detail-container">Carregando post...</main>;
     }
 
     if (error) {
-        return <div className="post-detail-container"><h1>{error}</h1></div>;
+        return <main className="post-detail-container"><h1>{error}</h1><p><a href="/blog">Voltar</a></p></main>;
     }
 
-    // Se tudo deu certo, renderiza o post
     const postData = post.fields;
     const publishDate = new Date(postData.publishDate).toLocaleDateString('pt-BR');
-    
     const imageUrl = postData.featuredImage ? 
         `https:${postData.featuredImage.fields.file.url}` : 
-        'placeholder.jpg';
+        'placeholder.jpg'; 
 
-    // 5. O retorno do Componente (o JSX que substitui o innerHTML)
     return (
         <main className="post-detail-container">
+            {/* O código JSX que substitui o HTML */}
             <article className="full-post-article">
-                
-                {/* Atualiza o título da aba do navegador (React Helmet é melhor, mas faremos o básico) */}
-                <title>{postData.title}</title>
-
+                <title>{postData.title}</title> 
                 <h1 className="post-header-title">{postData.title}</h1>
                 <p className="post-meta">Publicado em: {publishDate}</p>
                 
                 <img src={imageUrl} alt={postData.title} className="post-featured-image" />
                 
                 <div className="post-content-body">
-                    {/* Renderiza o Rich Text do Contentful corretamente no React */}
+                    {/* Renderiza o Rich Text do Contentful */}
                     {documentToReactComponents(postData.body)} 
                 </div>
                 
