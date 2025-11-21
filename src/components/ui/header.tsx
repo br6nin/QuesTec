@@ -20,7 +20,7 @@ const Header = () => {
                             <img 
                                 src="https://noxxvyznjrozaxwldnpv.supabase.co/storage/v1/object/public/logo/brand%20questec.jpg" 
                                 alt="Logo QuesTec" 
-                                className="w-50 h-50 object-contain" 
+                                className="w-15 h-15 object-contain" 
                             />
                         </Link>
                         {/* Nome QuesTec visível em telas maiores */}

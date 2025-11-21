@@ -312,9 +312,9 @@ export default function Home() {
               <div className="flex items-center space-x-2 mb-4">
                 <a href="https://questec.com.br">
                   <img 
-                    src="https://noxxvyznjrozaxwldnpv.supabase.co/storage/v1/object/public/logo/questec_logo.svg" 
+                    src="https://noxxvyznjrozaxwldnpv.supabase.co/storage/v1/object/public/logo/brand.png" 
                     alt="Logo QuesTec" 
-                    className="w-15 h-15 object-contain" 
+                    className="w-30 h-30 object-contain" 
                   />
                 </a>
                 <a href="https://questec.com.br" className="text-xl font-bold">QuesTec</a>
