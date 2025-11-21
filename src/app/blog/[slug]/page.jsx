@@ -2,15 +2,15 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { useRouter } from 'next/router'; // Roteador nativo do Next.js
+import { useParams } from 'next/navigation'; // Roteador nativo do Next.js
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer'; // Renderizador de Rich Text
 import { fetchPostDetail } from '../client'; 
 import '../styles.css';
 
 const PostDetail = () => {
-    const router = useRouter();
+    const params = useParams();
     // Obtém o 'slug' da URL limpa (/blog/meu-slug)
-    const { slug } = router.query; 
+    const slug = params.slug; 
     
     const [post, setPost] = useState(null);
     const [loading, setLoading] = useState(true);
