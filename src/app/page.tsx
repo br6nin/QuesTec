@@ -106,7 +106,7 @@ export default function Home() {
               <a href="#plans" className="text-gray-600 hover:text-gray-900 transition">Planos</a>
               <a href="#testimonials" className="text-gray-600 hover:text-gray-900 transition">Depoimentos</a>
               <a href="#contact" className="text-gray-600 hover:text-gray-900 transition">Contato</a>
-              <a href="/blog/blog.html" className="text-gray-600 hover:text-gray-900 transition">Blog</a>
+              <a href="/blog" className="text-gray-600 hover:text-gray-900 transition">Blog</a>
             </nav>
             <div className="flex items-center space-x-4">
               <Link href="/login">
