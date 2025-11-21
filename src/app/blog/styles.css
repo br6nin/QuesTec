@@ -119,7 +119,7 @@ main {
 
 /* --- Estilização do Conteúdo Principal do Post --- */
 
-.post-content-body {
+.post-content-content {
     /* Garante que o conteúdo tenha uma largura máxima legível */
     max-width: 800px; 
     margin: 20px auto; 
@@ -129,8 +129,8 @@ main {
 }
 
 /* Estilo para Títulos dentro do Conteúdo */
-.post-content-body h1, 
-.post-content-body h2 {
+.post-content-content h1, 
+.post-content-content h2 {
     color: #1a1a1a; 
     margin-top: 30px;
     margin-bottom: 15px;
@@ -139,19 +139,19 @@ main {
 }
 
 /* Estilo para Parágrafos */
-.post-content-body p {
+.post-content-content p {
     margin-bottom: 1em;
 }
 
 /* Estilo para Listas */
-.post-content-body ul, 
-.post-content-body ol {
+.post-content-content ul, 
+.post-content-content ol {
     margin-left: 20px;
     margin-bottom: 15px;
 }
 
 /* Estilo para Citações/Blockquotes */
-.post-content-body blockquote {
+.post-content-content blockquote {
     border-left: 4px solid #007bff; /* Linha azul de destaque */
     background-color: #f7f7f7;
     padding: 10px 20px;
