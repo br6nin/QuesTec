@@ -10,9 +10,6 @@ import React from 'react'; // Importação do React necessária para tipagem FC
 // Componentes UI simplificados e TIPADOS
 // ----------------------------------------------------
 
-// REMOVIDO: A interface ButtonProps e o componente Button customizado foram removidos
-// para usar o elemento <button> nativo diretamente no PlanCard.
-
 const Card: React.FC<{ children: React.ReactNode, className?: string }> = ({ children, className = '' }) => (
   <div className={`bg-white rounded-2xl shadow-xl transition duration-300 hover:shadow-2xl ${className}`}>
     {children}
@@ -154,17 +151,18 @@ export default function PlansPage() {
   const handleCheckout = async (plan: Plan) => {
     if (!user || (plan.paymentRequired && !plan.priceId)) {
       if (!plan.paymentRequired) {
-        router.push('/dashboard');
+        // Se for o plano gratuito, navega para a página de registro (como sugerido no seu código)
+        // Isso simula o fluxo do Link/href que você propôs
+        router.push('/register?plan=gratis');
         return;
       }
       console.error('Erro: Plano pago mal configurado (Price ID ausente) ou usuário não autenticado.');
       return;
     }
     
-    // Se for o plano gratuito, apenas navega.
+    // Se for o plano gratuito, o redirect já foi feito acima.
     if (!plan.paymentRequired) {
-        router.push('/dashboard');
-        return;
+        return; 
     }
 
 
@@ -215,16 +213,21 @@ export default function PlansPage() {
     // Definindo as classes específicas do botão com base no plano
     const baseClasses = 'px-6 py-3 rounded-xl font-semibold text-center transition duration-300 ease-in-out focus:outline-none focus:ring-4 focus:ring-opacity-50 text-white w-full';
     let specificClasses = '';
+    let buttonText = 'Escolher Plano'; // Texto padrão
 
     if (plan.name === 'Grátis') {
         specificClasses = 'bg-green-600 hover:bg-green-700 focus:ring-green-300';
+        buttonText = 'Começar Grátis';
     } else if (plan.popular) {
+        // Usando a cor azul/indigo que você sugeriu para o popular
         specificClasses = 'bg-indigo-600 hover:bg-indigo-700 focus:ring-indigo-300';
     } else {
+        // Usando a cor cinza/preta que você sugeriu para os demais planos pagos
         specificClasses = 'bg-gray-700 hover:bg-gray-800 focus:ring-gray-300';
     }
 
     // Adiciona classes para o estado disabled
+    // O botão será desabilitado se *qualquer* plano estiver em processamento (isProcessing)
     const disabledClasses = isProcessing ? 'opacity-50 cursor-not-allowed' : 'hover:shadow-lg';
     
     return (
@@ -261,9 +264,10 @@ export default function PlansPage() {
           </div>
     
           <div className="mt-auto"> {/* Alinha o botão na parte inferior */}
-            {/* NOVO: Usando o elemento <button> nativo */}
+            {/* Usando o elemento <button> nativo */}
             <button 
               onClick={() => handleCheckout(plan)}
+              // Desabilita o botão se isProcessing for true (o que acontecerá após o primeiro clique)
               disabled={isProcessing} 
               className={`${baseClasses} ${specificClasses} ${disabledClasses}`}
             >
@@ -273,7 +277,7 @@ export default function PlansPage() {
                   Processando...
                 </span>
               ) : (
-                plan.name === 'Grátis' ? 'Começar Grátis' : 'Assinar Agora'
+                buttonText // Usa o texto padrão definido acima
               )}
             </button>
           </div>
@@ -297,8 +301,6 @@ export default function PlansPage() {
 
   return (
     <div className="min-h-screen bg-gray-50 font-sans">
-      {/* REMOVIDO: O cabeçalho foi removido para evitar duplicação e elementos indesejados. */}
-
       {/* Main Content */}
       <main className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="text-center mb-16">
@@ -310,8 +312,7 @@ export default function PlansPage() {
           </p>
         </div>
 
-        {/* Pricing Cards Grid - AGORA USANDO FLEX PARA GARANTIR ALINHAMENTO HORIZONTAL */}
-        {/* A largura máxima foi removida do container, e o flex centraliza e distribui os itens. */}
+        {/* Pricing Cards Grid */}
         <div className="flex flex-col lg:flex-row justify-center items-stretch gap-8 mx-auto">
           {plans.map((plan, index) => (
             <PlanCard key={index} plan={plan} />
