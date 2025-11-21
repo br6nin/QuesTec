@@ -1,7 +1,7 @@
 import type { Config } from "tailwindcss";
 import tailwindcssAnimate from "tailwindcss-animate";
 
-const config: Config = {
+const config: Config & { safelist?: string[] } = {
     darkMode: "class",
     content: [
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
@@ -9,6 +9,20 @@ const config: Config = {
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
 	'./src/app/blog/**/*.{js,ts,jsx,tsx}',
   ],
+
+  safelist: [
+    // Cores para Progress Bar e Texto
+    'bg-green-600',
+    'bg-yellow-600',
+    'bg-red-600',
+    'text-green-600',
+    'text-yellow-600',
+    'text-red-600',
+    // Cores para o placar final
+    'text-red-800',
+    'text-blue-800',
+  ],
+
   theme: {
   	extend: {
   		colors: {
