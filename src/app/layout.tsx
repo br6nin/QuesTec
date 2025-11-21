@@ -32,7 +32,7 @@ export const metadata: Metadata = {
   
   openGraph: {
     title: "QuesTec",
-    description: "AI-powered development with modern React stack",
+    description: "Plataforma de Correção de Redação com IA",
     url: "https://questec.com.br",
     siteName: "QuesTec",
     type: "website",
