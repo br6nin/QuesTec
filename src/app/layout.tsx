@@ -40,7 +40,7 @@ export const metadata: Metadata = {
     // 🛑 IMAGEM OPEN GRAPH
     images: [
       {
-        url: 'https://noxxvyznjrozaxwldnpv.supabase.co/storage/v1/object/public/logo/questec_logo.png',
+        url: 'https://noxxvyznjrozaxwldnpv.supabase.co/storage/v1/object/public/logo/Logo%20QuesTec.jpg',
         width: 1200, 
         height: 630,
         alt: 'QuesTec Logo e Correção ENEM com IA',
@@ -53,7 +53,7 @@ export const metadata: Metadata = {
     title: "QuesTec",
     description: "AI-powered development with modern React stack",
     // 🛑 IMAGEM TWITTER
-    images: ['https://noxxvyznjrozaxwldnpv.supabase.co/storage/v1/object/public/logo/questec_logo.png'], 
+    images: ['https://noxxvyznjrozaxwldnpv.supabase.co/storage/v1/object/public/logo/Logo%20QuesTec.jpg'], 
   },
 };
 
