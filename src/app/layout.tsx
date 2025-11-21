@@ -1,9 +1,13 @@
+// src/app/layout.tsx
+
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css"; 
 import { Toaster } from "@/components/ui/toaster";
-// Importação do componente de barra de progresso
 import NextTopLoader from "nextjs-toploader"; 
+
+// 🛑 NOVA IMPORTAÇÃO: Componente de Cabeçalho
+import Header from "@/components/ui/header"; 
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -20,20 +24,36 @@ export const metadata: Metadata = {
   description: "Plataforma de Correção de Redação com IA",
   keywords: ["Z.ai", "Next.js", "TypeScript", "Tailwind CSS", "shadcn/ui", "AI development", "React"],
   authors: [{ name: "br6nin" }],
+  
+  // 🛑 ÍCONE (Favicon) - AGORA USANDO O PNG
   icons: {
-    icon: "https://noxxvyznjrozaxwldnpv.supabase.co/storage/v1/object/public/logo/questec_logo.svg",
+    icon: "https://noxxvyznjrozaxwldnpv.supabase.co/storage/v1/object/public/logo/questec_logo.png",
   },
+  
   openGraph: {
     title: "QuesTec",
     description: "AI-powered development with modern React stack",
     url: "https://chat.z.ai",
-    siteName: "Z.ai",
+    siteName: "QuesTec",
     type: "website",
+    
+    // 🛑 IMAGEM OPEN GRAPH
+    images: [
+      {
+        url: 'https://noxxvyznjrozaxwldnpv.supabase.co/storage/v1/object/public/logo/questec_logo.png',
+        width: 1200, 
+        height: 630,
+        alt: 'QuesTec Logo e Correção ENEM com IA',
+      },
+    ],
   },
+  
   twitter: {
     card: "summary_large_image",
     title: "QuesTec",
     description: "AI-powered development with modern React stack",
+    // 🛑 IMAGEM TWITTER
+    images: ['https://noxxvyznjrozaxwldnpv.supabase.co/storage/v1/object/public/logo/questec_logo.png'], 
   },
 };
 
@@ -43,14 +63,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    // Alterei lang="en" para lang="pt-br" para maior consistência
     <html lang="pt-br" suppressHydrationWarning> 
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background text-foreground`}
       >
-        {/* Componente de Barra de Progresso Adicionado */}
+        {/* Componente de Barra de Progresso */}
         <NextTopLoader
-          color="#2299DD" // Cor azul do Questec
+          color="#2299DD" 
           initialPosition={0.08}
           crawlSpeed={200}
           height={3} 
@@ -59,6 +78,9 @@ export default function RootLayout({
           speed={500}
           shadow="0 0 10px #2299DD, 0 0 5px #2299DD"
         />
+
+        {/* 🛑 COMPONENTE DE CABEÇALHO GLOBAL */}
+        <Header /> 
 
         {children}
         <Toaster />
