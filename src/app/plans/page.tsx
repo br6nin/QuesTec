@@ -25,7 +25,7 @@ const Button: React.FC<ButtonProps> = ({ children, onClick, disabled, className 
     className={`
       px-6 py-3 rounded-xl font-semibold text-center transition duration-300 ease-in-out
       focus:outline-none focus:ring-4 focus:ring-opacity-50
-      ${disabled ? 'opacity-50 cursor-not-allowed' : 'hover:shadow-lg transform hover:-translate-y-0.5'}
+      ${disabled ? 'opacity-50 cursor-not-allowed' : 'hover:shadow-lg'} 
       ${className}
     `}
   >
@@ -105,7 +105,7 @@ const plans: Plan[] = [
     color: 'ring-gray-300',
     paymentRequired: true,
     creditsToAdd: 5,
-    priceId: 'price_1SVyEp7y7k1z73nwQrreXq4y', // <-- SUBSTITUA ESTE ID
+    priceId: 'price_1PBasicoXXXXXX', // <-- SUBSTITUA ESTE ID
   },
   {
     name: 'Plus',
@@ -122,7 +122,7 @@ const plans: Plan[] = [
     color: 'ring-indigo-600',
     paymentRequired: true,
     creditsToAdd: 15,
-    priceId: 'price_1SVyFZ7y7k1z73nwWRLqyz3Q', // <-- SUBSTITUA ESTE ID
+    priceId: 'price_1PPlusXXXXXX', // <-- SUBSTITUA ESTE ID
   },
   {
     name: 'Premium',
@@ -140,7 +140,7 @@ const plans: Plan[] = [
     color: 'ring-gray-300',
     paymentRequired: true,
     creditsToAdd: 30,
-    priceId: 'price_1SVyFz7y7k1z73nwT56tbTH6', // <-- SUBSTITUA ESTE ID
+    priceId: 'price_1PPremiumXXXXXX', // <-- SUBSTITUA ESTE ID
   }
 ]
 
