@@ -15,7 +15,7 @@ export const client = contentful.createClient({
 export async function fetchPosts() {
     try {
         const response = await client.getEntries({
-            content_type: 'post', 
+            content_type: 'pageBlogPost', 
             order: '-fields.publishDate' 
         });
         return response.items;
@@ -30,7 +30,7 @@ export async function fetchPostDetail(slug) {
     if (!slug) return null;
     try {
         const response = await client.getEntries({
-            content_type: 'post',
+            content_type: 'pageBlogPost',
             'fields.slug': slug, 
             limit: 1 
         });
