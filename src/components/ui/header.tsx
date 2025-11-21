@@ -68,7 +68,6 @@ const Header = () => {
                     
                     <Link href="/login" onClick={() => setIsMenuOpen(false)} className="py-2 text-blue-600 hover:bg-blue-50 rounded-md px-2 border border-blue-600 text-center mt-2">Entrar</Link>
                     <Link href="/register" onClick={() => setIsMenuOpen(false)} className="py-2 bg-blue-600 text-white hover:bg-blue-700 rounded-md px-2 text-center">Cadastrar</Link>
-                    <Link href="/admin" onClick={() => setIsMenuOpen(false)} className="py-2 text-gray-600 hover:bg-gray-100 rounded-md px-2 text-center">Admin</Link>
                 </div>
             </div>
         </header>
