@@ -6,9 +6,11 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { CheckCircle, PenTool, Brain, TrendingUp, Users, Star, ArrowRight, Mail, Phone, MessageCircle } from 'lucide-react'
 import Link from 'next/link'
+import { Menu, X } from 'lucide-react'
 
 export default function Home() {
   const [activeTab, setActiveTab] = useState('how')
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const plans = [
     {
@@ -92,42 +94,81 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-white">
       {/* Header */}
-      <header className="sticky top-0 z-50 bg-white border-b border-gray-200">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
+<header className="sticky top-0 z-50 bg-white border-b border-gray-200">
+    <div className="container mx-auto px-4 py-4">
+        <div className="flex items-center justify-between">
+            {/* Logo */}
             <div className="flex items-center space-x-2">
-              <div className="w-10 h-10 bg-red-600 rounded-lg flex items-center justify-center">
-                <PenTool className="w-6 h-6 text-white" />
-              </div>
-              <a href= "https://questec.com.br" className="text-2xl font-bold text-gray-900">QuesTec</a>
+                <div className="w-10 h-10 bg-red-600 rounded-lg flex items-center justify-center">
+                    <PenTool className="w-6 h-6 text-white" />
+                </div>
+                <a href="https://questec.com.br" className="text-2xl font-bold text-gray-900">QuesTec</a>
             </div>
+
+            {/* NAVEGAÇÃO DESKTOP (Links) - VISÍVEL APENAS EM TELAS MÉDIAS E MAIORES */}
             <nav className="hidden md:flex items-center space-x-6">
-              <a href="#how" className="text-gray-600 hover:text-gray-900 transition">Como Funciona</a>
-              <a href="#plans" className="text-gray-600 hover:text-gray-900 transition">Planos</a>
-              <a href="#testimonials" className="text-gray-600 hover:text-gray-900 transition">Depoimentos</a>
-              <a href="#contact" className="text-gray-600 hover:text-gray-900 transition">Contato</a>
-              <a href="/blog" className="text-gray-600 hover:text-gray-900 transition">Blog</a>
+                <a href="#how" className="text-gray-600 hover:text-gray-900 transition">Como Funciona</a>
+                <a href="#plans" className="text-gray-600 hover:text-gray-900 transition">Planos</a>
+                <a href="#testimonials" className="text-gray-600 hover:text-gray-900 transition">Depoimentos</a>
+                <a href="#contact" className="text-gray-600 hover:text-gray-900 transition">Contato</a>
+                <a href="/blog" className="text-gray-600 hover:text-gray-900 transition">Blog</a>
             </nav>
+
+            {/* NAVEGAÇÃO DESKTOP (Botões) - OCULTAR APENAS O ADMIN NO MOBILE */}
             <div className="flex items-center space-x-4">
-              <Link href="/login">
-                <Button variant="outline" className="text-blue-600 border-blue-600 hover:bg-blue-50">
-                  Entrar
-                </Button>
-              </Link>
-              <Link href="/register">
-                <Button className="bg-blue-600 hover:bg-blue-700 text-white">
-                  Cadastrar
-                </Button>
-              </Link>
-              <Link href="/admin">
-                <Button variant="ghost" className="text-gray-600 hover:text-gray-900">
-                  Admin
-                </Button>
-              </Link>
+                {/* Botões Entrar/Cadastrar - Exibir em Mobile */}
+                <Link href="/login" className="hidden sm:block">
+                    <Button variant="outline" className="text-blue-600 border-blue-600 hover:bg-blue-50">
+                        Entrar
+                    </Button>
+                </Link>
+                <Link href="/register" className="hidden sm:block">
+                    <Button className="bg-blue-600 hover:bg-blue-700 text-white">
+                        Cadastrar
+                    </Button>
+                </Link>
+                <Link href="/admin" className="hidden sm:block"> 
+                    <Button variant="ghost" className="text-gray-600 hover:text-gray-900">
+                        Admin
+                    </Button>
+                </Link>
+
+                {/* BOTÃO HAMBURGER - VISÍVEL APENAS EM TELAS PEQUENAS (md:hidden) */}
+                <button 
+                    className="md:hidden p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    onClick={() => setIsMenuOpen(!isMenuOpen)}
+                >
+                    {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+                </button>
             </div>
-          </div>
         </div>
-      </header>
+    </div>
+
+    {/* MENU MOBILE EXPANSÍVEL */}
+    <div 
+        className={`md:hidden transition-all duration-300 overflow-hidden ${isMenuOpen ? 'max-h-screen opacity-100 py-2' : 'max-h-0 opacity-0'}`}
+    >
+        <div className="flex flex-col space-y-2 px-4 pb-4">
+            {/* Links do Menu Principal */}
+            <a onClick={() => setIsMenuOpen(false)} href="#how" className="py-2 text-gray-700 hover:bg-gray-100 rounded-md px-2">Como Funciona</a>
+            <a onClick={() => setIsMenuOpen(false)} href="#plans" className="py-2 text-gray-700 hover:bg-gray-100 rounded-md px-2">Planos</a>
+            <a onClick={() => setIsMenuOpen(false)} href="#testimonials" className="py-2 text-gray-700 hover:bg-gray-100 rounded-md px-2">Depoimentos</a>
+            <a onClick={() => setIsMenuOpen(false)} href="#contact" className="py-2 text-gray-700 hover:bg-gray-100 rounded-md px-2">Contato</a>
+            <a onClick={() => setIsMenuOpen(false)} href="/blog" className="py-2 text-gray-700 hover:bg-gray-100 rounded-md px-2">Blog</a>
+            
+            {/* Botões Entrar/Cadastrar (Opcional, se precisar deles como links simples no menu) */}
+            <Link href="/login" onClick={() => setIsMenuOpen(false)} className="py-2 text-blue-600 hover:bg-blue-50 rounded-md px-2 border border-blue-600 text-center mt-2">
+                Entrar
+            </Link>
+            <Link href="/register" onClick={() => setIsMenuOpen(false)} className="py-2 bg-blue-600 text-white hover:bg-blue-700 rounded-md px-2 text-center">
+                Cadastrar
+            </Link>
+            <Link href="/admin" onClick={() => setIsMenuOpen(false)} className="py-2 text-gray-600 hover:bg-gray-100 rounded-md px-2 text-center">
+                Admin
+            </Link>
+        </div>
+    </div>
+</header>
 
       {/* Hero Section */}
       <section className="py-20 px-4">
