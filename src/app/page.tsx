@@ -163,99 +163,10 @@ export default function Home() {
       setLoadingPlan(null); 
     }
   };
-  
-  // NOVO COMPONENTE NAVBAR PARA O CABEÇALHO
-  const Navbar = () => (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-white shadow-md">
-      <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-        <Logo />
-        
-        {/* Navegação Desktop */}
-        <nav className="hidden md:flex space-x-6 text-gray-600 font-medium">
-          {navItems.map((item) => (
-            <Link key={item.name} href={item.href} className="hover:text-blue-600 transition">
-              {item.name}
-            </Link>
-          ))}
-          <Link href="/blog" className="hover:text-blue-600 transition">Blog</Link>
-        </nav>
-
-        {/* Botões de Ação Desktop */}
-        <div className="hidden md:flex space-x-3">
-          <Link href="/login">
-            <Button variant="outline" className="border-blue-600 text-blue-600 hover:bg-blue-50">
-              Entrar
-            </Button>
-          </Link>
-          <Link href="/register">
-            <Button className="bg-blue-600 hover:bg-blue-700">
-              Cadastrar
-            </Button>
-          </Link>
-          <Link href="/admin">
-            <Button variant="ghost" className="text-gray-600 hover:bg-gray-100">
-              Admin
-            </Button>
-          </Link>
-          <Button variant="ghost" className="text-gray-600 hover:bg-gray-100">
-            Abrir no app
-          </Button>
-        </div>
-
-        {/* Menu Hamburguer Mobile */}
-        <Button 
-          variant="ghost" 
-          className="md:hidden" 
-          onClick={() => setIsMenuOpen(!isMenuOpen)}
-        >
-          {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-        </Button>
-      </div>
-
-      {/* Menu Mobile (Dropdown) */}
-      {isMenuOpen && (
-        <div className="md:hidden bg-white shadow-lg border-t">
-          <nav className="flex flex-col space-y-2 p-4">
-            {navItems.map((item) => (
-              <Link 
-                key={item.name} 
-                href={item.href} 
-                onClick={() => setIsMenuOpen(false)}
-                className="block py-2 text-gray-700 hover:bg-gray-100 px-3 rounded-md"
-              >
-                {item.name}
-              </Link>
-            ))}
-            <Link 
-                href="/blog" 
-                onClick={() => setIsMenuOpen(false)}
-                className="block py-2 text-gray-700 hover:bg-gray-100 px-3 rounded-md"
-            >
-                Blog
-            </Link>
-            <div className="pt-2 border-t mt-2 flex flex-col space-y-2">
-              <Link href="/login">
-                <Button variant="outline" className="w-full border-blue-600 text-blue-600">Entrar</Button>
-              </Link>
-              <Link href="/register">
-                <Button className="w-full bg-blue-600 hover:bg-blue-700">Cadastrar</Button>
-              </Link>
-              <Link href="/admin">
-                <Button variant="ghost" className="w-full text-gray-600 hover:bg-gray-100">Admin</Button>
-              </Link>
-              <Button variant="ghost" className="w-full text-gray-600 hover:bg-gray-100">Abrir no app</Button>
-            </div>
-          </nav>
-        </div>
-      )}
-    </header>
-  );
 
   // ⭐️ O CORPO PRINCIPAL DO COMPONENTE DEVE SER RETORNADO ASSIM:
   return (
     <div className="min-h-screen bg-white">
-      {/* 1. Inclui a nova Navbar */}
-      <Navbar />
 
       {/* Margem superior para compensar a Navbar fixa */}
       <div className="pt-20"> 
@@ -517,7 +428,6 @@ export default function Home() {
               <ul className="space-y-2 text-gray-400">
                 <li><a href="#how" className="hover:text-white transition">Como Funciona</a></li>
                 <li><a href="#plans" className="hover:text-white transition">Planos</a></li>
-                <li><Link href="/dashboard" className="hover:text-white transition">Dashboard</Link></li>
               </ul>
             </div>
             
