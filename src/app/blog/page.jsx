@@ -36,7 +36,7 @@ const BlogIndex = () => {
                 const postData = post.fields;
                 const title = postData.title;
                 const slug = postData.slug;
-                const publishDate = new Date(postData.publishDate).toLocaleDateString('pt-BR');
+                const publishedDate = new Date(postData.publishedDate).toLocaleDateString('pt-BR');
                 const imageUrl = postData.featuredImage 
                     ? `https:${postData.featuredImage.fields.file.url}` 
                     : 'placeholder.jpg';
@@ -48,7 +48,7 @@ const BlogIndex = () => {
                             <img src={imageUrl} alt={title} className="card-image"/>
                             <div className="card-content">
                                 <h3>{title}</h3>
-                                <p className="date">Publicado em: {publishDate}</p>
+                                <p className="date">Publicado em: {publishedDate}</p>
                                 <a className="read-more-link">Ler Post Completo</a>
                             </div>
                         </article>

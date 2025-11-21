@@ -16,7 +16,7 @@ export async function fetchPosts() {
     try {
         const response = await client.getEntries({
             content_type: 'pageBlogPost', 
-            order: '-fields.publishDate' 
+            order: '-fields.publishedDate' 
         });
         return response.items;
     } catch (error) {
