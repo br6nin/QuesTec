@@ -43,7 +43,7 @@ const PostDetail = () => {
     }
 
     const postData = post.fields;
-    const publishDate = new Date(postData.publishDate).toLocaleDateString('pt-BR');
+    const publishedDate = new Date(postData.publishedDate).toLocaleDateString('pt-BR');
     const imageUrl = postData.featuredImage ? 
         `https:${postData.featuredImage.fields.file.url}` : 
         'placeholder.jpg'; 
