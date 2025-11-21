@@ -10,29 +10,8 @@ import React from 'react'; // Importação do React necessária para tipagem FC
 // Componentes UI simplificados e TIPADOS
 // ----------------------------------------------------
 
-interface ButtonProps {
-  children: React.ReactNode;
-  onClick: () => void;
-  disabled?: boolean;
-  className?: string;
-}
-
-// Componente Button tipado corretamente como React.FC
-const Button: React.FC<ButtonProps> = ({ children, onClick, disabled, className = '' }) => (
-  <button
-    onClick={onClick}
-    // A classe disabled garante a opacidade e o cursor
-    disabled={disabled}
-    className={`
-      px-6 py-3 rounded-xl font-semibold text-center transition duration-300 ease-in-out
-      focus:outline-none focus:ring-4 focus:ring-opacity-50
-      ${disabled ? 'opacity-50 cursor-not-allowed' : 'hover:shadow-lg'} 
-      ${className}
-    `}
-  >
-    {children}
-  </button>
-);
+// REMOVIDO: A interface ButtonProps e o componente Button customizado foram removidos
+// para usar o elemento <button> nativo diretamente no PlanCard.
 
 const Card: React.FC<{ children: React.ReactNode, className?: string }> = ({ children, className = '' }) => (
   <div className={`bg-white rounded-2xl shadow-xl transition duration-300 hover:shadow-2xl ${className}`}>
@@ -106,7 +85,7 @@ const plans: Plan[] = [
     color: 'ring-gray-300',
     paymentRequired: true,
     creditsToAdd: 5,
-    priceId: 'price_1PBasicoXXXXXX', // <-- SUBSTITUA ESTE ID
+    priceId: 'price_1SVyEp7y7k1z73nwQrreXq4y', // <-- SUBSTITUA ESTE ID
   },
   {
     name: 'Plus',
@@ -123,7 +102,7 @@ const plans: Plan[] = [
     color: 'ring-indigo-600',
     paymentRequired: true,
     creditsToAdd: 15,
-    priceId: 'price_1PPlusXXXXXX', // <-- SUBSTITUA ESTE ID
+    priceId: 'price_1SVyFZ7y7k1z73nwWRLqyz3Q', // <-- SUBSTITUA ESTE ID
   },
   {
     name: 'Premium',
@@ -141,7 +120,7 @@ const plans: Plan[] = [
     color: 'ring-gray-300',
     paymentRequired: true,
     creditsToAdd: 30,
-    priceId: 'price_1PPremiumXXXXXX', // <-- SUBSTITUA ESTE ID
+    priceId: 'price_1SVyFz7y7k1z73nwT56tbTH6', // <-- SUBSTITUA ESTE ID
   }
 ]
 
@@ -232,65 +211,75 @@ export default function PlansPage() {
   }
   
   // Componente Card de Plano
-  const PlanCard: React.FC<{ plan: Plan }> = ({ plan }) => (
-    <Card 
-        // CLASSE AJUSTADA: Removida 'hover:scale-[1.02]' para maior estabilidade no clique.
-        className={`relative p-6 flex flex-col h-full ring-2 ${plan.color} ${plan.popular ? 'ring-offset-2' : 'ring-opacity-50'} ${isProcessing ? 'opacity-70' : ''} transition-all duration-300 w-full lg:max-w-xs`}
-    >
-      {plan.popular && (
-        <div className="absolute top-0 right-0 -mt-3 -mr-3">
-          <span className="bg-amber-500 text-white px-3 py-1 rounded-full text-xs font-bold shadow-md uppercase tracking-wider">
-            Recomendado
-          </span>
-        </div>
-      )}
-      
-      <div className="text-center mb-6 flex-grow">
-        <h2 className="text-2xl font-extrabold text-gray-900 mb-1">{plan.name}</h2>
-        <p className="text-4xl font-black text-indigo-700 mb-2">
-          {plan.price}
-          {plan.paymentRequired && <span className="text-base font-medium text-gray-500">/mês</span>}
-        </p>
-        <p className="text-sm text-gray-500 font-medium">{plan.credits}</p>
-      </div>
+  const PlanCard: React.FC<{ plan: Plan }> = ({ plan }) => {
+    // Definindo as classes específicas do botão com base no plano
+    const baseClasses = 'px-6 py-3 rounded-xl font-semibold text-center transition duration-300 ease-in-out focus:outline-none focus:ring-4 focus:ring-opacity-50 text-white w-full';
+    let specificClasses = '';
 
-      <div className="mb-8 space-y-3 flex-grow">
-        <h3 className="text-sm font-bold uppercase text-gray-600 mb-3 border-b pb-1">Recursos Incluídos:</h3>
-        <ul className="space-y-3">
-          {plan.features.map((feature, idx) => (
-            <li key={idx} className="flex items-start text-sm text-gray-700">
-              <CheckCircle className="w-5 h-5 text-green-500 mr-2 flex-shrink-0 mt-0.5" />
-              <span>{feature}</span>
-            </li>
-          ))}
-        </ul>
-      </div>
+    if (plan.name === 'Grátis') {
+        specificClasses = 'bg-green-600 hover:bg-green-700 focus:ring-green-300';
+    } else if (plan.popular) {
+        specificClasses = 'bg-indigo-600 hover:bg-indigo-700 focus:ring-indigo-300';
+    } else {
+        specificClasses = 'bg-gray-700 hover:bg-gray-800 focus:ring-gray-300';
+    }
 
-      <div className="mt-auto"> {/* Alinha o botão na parte inferior */}
-        <Button 
-          onClick={() => handleCheckout(plan)}
-          // Reforçando o uso do disabled: Se isProcessing for true, o botão é desativado.
-          disabled={isProcessing} 
-          className={`w-full ${
-            plan.name === 'Grátis' 
-              ? 'bg-green-600 hover:bg-green-700 focus:ring-green-300' 
-              : plan.popular 
-                ? 'bg-indigo-600 hover:bg-indigo-700 focus:ring-indigo-300' 
-                : 'bg-gray-700 hover:bg-gray-800 focus:ring-gray-300'
-          } text-white`}
+    // Adiciona classes para o estado disabled
+    const disabledClasses = isProcessing ? 'opacity-50 cursor-not-allowed' : 'hover:shadow-lg';
+    
+    return (
+        <Card 
+            className={`relative p-6 flex flex-col h-full ring-2 ${plan.color} ${plan.popular ? 'ring-offset-2' : 'ring-opacity-50'} ${isProcessing ? 'opacity-70' : ''} transition-all duration-300 w-full lg:max-w-xs`}
         >
-          {isProcessing ? (
-            <span className="flex items-center justify-center">
-              <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-              Processando...
-            </span>
-          ) : (
-            plan.name === 'Grátis' ? 'Começar Grátis' : 'Assinar Agora'
+          {plan.popular && (
+            <div className="absolute top-0 right-0 -mt-3 -mr-3">
+              <span className="bg-amber-500 text-white px-3 py-1 rounded-full text-xs font-bold shadow-md uppercase tracking-wider">
+                Recomendado
+              </span>
+            </div>
           )}
-        </Button>
-      </div>
-    </Card>
-  );
+          
+          <div className="text-center mb-6 flex-grow">
+            <h2 className="text-2xl font-extrabold text-gray-900 mb-1">{plan.name}</h2>
+            <p className="text-4xl font-black text-indigo-700 mb-2">
+              {plan.price}
+              {plan.paymentRequired && <span className="text-base font-medium text-gray-500">/mês</span>}
+            </p>
+            <p className="text-sm text-gray-500 font-medium">{plan.credits}</p>
+          </div>
+    
+          <div className="mb-8 space-y-3 flex-grow">
+            <h3 className="text-sm font-bold uppercase text-gray-600 mb-3 border-b pb-1">Recursos Incluídos:</h3>
+            <ul className="space-y-3">
+              {plan.features.map((feature, idx) => (
+                <li key={idx} className="flex items-start text-sm text-gray-700">
+                  <CheckCircle className="w-5 h-5 text-green-500 mr-2 flex-shrink-0 mt-0.5" />
+                  <span>{feature}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+    
+          <div className="mt-auto"> {/* Alinha o botão na parte inferior */}
+            {/* NOVO: Usando o elemento <button> nativo */}
+            <button 
+              onClick={() => handleCheckout(plan)}
+              disabled={isProcessing} 
+              className={`${baseClasses} ${specificClasses} ${disabledClasses}`}
+            >
+              {isProcessing ? (
+                <span className="flex items-center justify-center">
+                  <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                  Processando...
+                </span>
+              ) : (
+                plan.name === 'Grátis' ? 'Começar Grátis' : 'Assinar Agora'
+              )}
+            </button>
+          </div>
+        </Card>
+    );
+  };
 
   if (!user) {
     return (
