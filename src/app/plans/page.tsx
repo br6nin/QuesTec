@@ -21,6 +21,7 @@ interface ButtonProps {
 const Button: React.FC<ButtonProps> = ({ children, onClick, disabled, className = '' }) => (
   <button
     onClick={onClick}
+    // A classe disabled garante a opacidade e o cursor
     disabled={disabled}
     className={`
       px-6 py-3 rounded-xl font-semibold text-center transition duration-300 ease-in-out
@@ -105,7 +106,7 @@ const plans: Plan[] = [
     color: 'ring-gray-300',
     paymentRequired: true,
     creditsToAdd: 5,
-    priceId: 'price_1SVyEp7y7k1z73nwQrreXq4y', // <-- SUBSTITUA ESTE ID
+    priceId: 'price_1PBasicoXXXXXX', // <-- SUBSTITUA ESTE ID
   },
   {
     name: 'Plus',
@@ -122,7 +123,7 @@ const plans: Plan[] = [
     color: 'ring-indigo-600',
     paymentRequired: true,
     creditsToAdd: 15,
-    priceId: 'price_1SVyFZ7y7k1z73nwWRLqyz3Q', // <-- SUBSTITUA ESTE ID
+    priceId: 'price_1PPlusXXXXXX', // <-- SUBSTITUA ESTE ID
   },
   {
     name: 'Premium',
@@ -140,7 +141,7 @@ const plans: Plan[] = [
     color: 'ring-gray-300',
     paymentRequired: true,
     creditsToAdd: 30,
-    priceId: 'price_1SVyFz7y7k1z73nwT56tbTH6', // <-- SUBSTITUA ESTE ID
+    priceId: 'price_1PPremiumXXXXXX', // <-- SUBSTITUA ESTE ID
   }
 ]
 
@@ -188,7 +189,7 @@ export default function PlansPage() {
     }
 
 
-    setIsProcessing(true)
+    setIsProcessing(true) // Desativa o botão IMEDIATAMENTE
 
     try {
         // 1. Chamar a rota de API de backend para criar a sessão do Stripe Checkout
@@ -216,20 +217,25 @@ export default function PlansPage() {
             // 2. Redirecionar para a URL do Stripe Checkout
             // Isso envia o usuário para a página de pagamento externa.
             window.location.href = url;
+            // IMPORTANTE: Após o redirect, o código aqui não será mais executado.
         } else {
             throw new Error('URL de checkout não recebida.');
         }
 
     } catch (error) {
         console.error('Erro fatal no processo de checkout:', error)
-        setIsProcessing(false)
+        // Em caso de erro, reativa o botão para que o usuário possa tentar novamente
+        setIsProcessing(false) 
     }
+    // NUNCA chamar setIsProcessing(false) aqui, pois queremos que o botão
+    // permaneça desativado se o redirect for bem-sucedido até a navegação ocorrer.
   }
   
   // Componente Card de Plano
   const PlanCard: React.FC<{ plan: Plan }> = ({ plan }) => (
     <Card 
-        className={`relative p-6 flex flex-col h-full ring-2 ${plan.color} ${plan.popular ? 'ring-offset-2' : 'ring-opacity-50'} ${isProcessing ? 'opacity-70' : 'hover:scale-[1.02]'} transition-all duration-300 w-full lg:max-w-xs`}
+        // CLASSE AJUSTADA: Removida 'hover:scale-[1.02]' para maior estabilidade no clique.
+        className={`relative p-6 flex flex-col h-full ring-2 ${plan.color} ${plan.popular ? 'ring-offset-2' : 'ring-opacity-50'} ${isProcessing ? 'opacity-70' : ''} transition-all duration-300 w-full lg:max-w-xs`}
     >
       {plan.popular && (
         <div className="absolute top-0 right-0 -mt-3 -mr-3">
@@ -263,7 +269,8 @@ export default function PlansPage() {
       <div className="mt-auto"> {/* Alinha o botão na parte inferior */}
         <Button 
           onClick={() => handleCheckout(plan)}
-          disabled={isProcessing}
+          // Reforçando o uso do disabled: Se isProcessing for true, o botão é desativado.
+          disabled={isProcessing} 
           className={`w-full ${
             plan.name === 'Grátis' 
               ? 'bg-green-600 hover:bg-green-700 focus:ring-green-300' 
