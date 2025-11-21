@@ -1,3 +1,4 @@
+'use client'
 // 'use client' // Mantenha esta linha se estiver usando o Next.js App Router
 
 import { useState, useEffect, useCallback } from 'react' // Adicionado useCallback
